@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davidetemesi · E-Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg:#F5F6FC;
+    --bg-card:#FFFFFF;
+    --ink:#1F2430;
+    --ink-soft:#646B7E;
+    --line:#E7E9F5;
+    --accent:#4C6FFF;
+    --sidebar-bg:#FFFFFF;
+    --sidebar-line:#EDEEF7;
+    --sidebar-text:#6B7280;
+    --sidebar-text-active:#1F2430;
+    --sidebar-w:300px;
+    --radius:16px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter', -apple-system, sans-serif;
+    color:var(--ink);
+    display:flex;
+    min-height:100vh;
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(circle at 6% 6%,   rgba(76,111,255,.12), transparent 38%),
+      radial-gradient(circle at 92% 12%, rgba(168,85,247,.11), transparent 42%),
+      radial-gradient(circle at 88% 92%, rgba(20,184,166,.10), transparent 42%),
+      radial-gradient(circle at 8% 94%,  rgba(255,107,107,.10), transparent 38%),
+      radial-gradient(circle, rgba(31,36,48,.05) 1px, transparent 1.5px);
+    background-size:auto, auto, auto, auto, 22px 22px;
+    background-attachment:fixed, fixed, fixed, fixed, fixed;
+    background-repeat:no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:var(--sidebar-bg);
+    color:var(--sidebar-text);
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    border-right:1px solid var(--sidebar-line);
+  }
+
+  .sidebar-header{
+    padding:28px 22px 22px;
+    border-bottom:1px solid var(--sidebar-line);
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+
+  .logo-mark{
+    width:42px;
+    height:42px;
+    flex-shrink:0;
+    border-radius:12px;
+    background:linear-gradient(135deg, #4C6FFF, #8A5BFF);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Sora', sans-serif;
+    font-weight:800;
+    font-size:14px;
+    color:#fff;
+    box-shadow:0 6px 16px -4px rgba(76,111,255,.45);
+  }
+
+  .sidebar-header h1{
+    font-family:'Sora', sans-serif;
+    font-size:16px;
+    font-weight:700;
+    color:var(--sidebar-text-active);
+    margin:0;
+    line-height:1.3;
+  }
+  .sidebar-header p{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:500;
+    color:var(--sidebar-text);
+    margin:2px 0 0;
+  }
+
+  nav.sidebar-nav{
+    padding:16px 14px 30px;
+    flex:1;
+  }
+
+  .nav-link{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    color:var(--sidebar-text);
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    padding:11px 14px;
+    border-radius:11px;
+    cursor:pointer;
+    margin-bottom:3px;
+  }
+  .nav-link:hover{
+    background:#F6F7FD;
+    color:var(--sidebar-text-active);
+  }
+  .nav-link.active{
+    background:color-mix(in srgb, var(--u-accent, var(--accent)) 12%, white);
+    color:var(--sidebar-text-active);
+  }
+  .nav-link .swatch{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--u-accent, var(--accent));
+    flex-shrink:0;
+  }
+  .nav-link.active .unit-num{color:var(--u-accent, var(--accent));}
+
+  .nav-group-label{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    background:none;
+    border:none;
+    color:var(--sidebar-text);
+    font-family:'Sora', sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:18px 14px 10px;
+    cursor:pointer;
+  }
+  .nav-group-label:hover{color:var(--sidebar-text-active);}
+  .chev{
+    display:inline-block;
+    transition:transform .2s ease;
+    font-size:10px;
+    color:var(--accent);
+  }
+  .nav-group.open .chev{transform:rotate(90deg);}
+
+  .nav-sublist{
+    list-style:none;
+    margin:0;
+    padding:0;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+  }
+  .nav-group.open .nav-sublist{
+    max-height:900px;
+  }
+
+  .nav-sublist .nav-link{
+    padding-left:14px;
+    font-size:12.5px;
+  }
+  .unit-num{
+    font-family:'Sora', sans-serif;
+    color:#9AA1B4;
+    font-size:11px;
+    font-weight:700;
+    flex-shrink:0;
+    width:24px;
+  }
+
+  .sidebar-footer{
+    padding:16px 22px;
+    border-top:1px solid var(--sidebar-line);
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    color:#9AA1B4;
+  }
+
+  /* ---------- MAIN ---------- */
+  main{
+    margin:24px 24px 24px calc(var(--sidebar-w) + 24px);
+    flex:1;
+    min-height:calc(100vh - 48px);
+    padding:56px 64px 100px;
+    max-width:900px;
+    background:var(--bg-card);
+    border-radius:28px;
+    box-shadow:0 10px 40px -12px rgba(31,36,48,.10);
+  }
+
+  .page{display:none;}
+  .page.active{display:block; animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .page h2{
+    font-family:'Sora', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .page h2::before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--accent);
+    display:inline-block;
+  }
+  .page h1.title{
+    font-family:'Sora', sans-serif;
+    font-size:34px;
+    font-weight:700;
+    line-height:1.25;
+    margin:0 0 28px;
+    color:var(--ink);
+    padding-bottom:24px;
+    position:relative;
+  }
+  .page h1.title::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:56px;
+    height:5px;
+    border-radius:3px;
+    background:linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 40%, white));
+  }
+
+  .page p{
+    font-size:16.5px;
+    line-height:1.75;
+    color:var(--ink);
+    margin:0 0 20px;
+  }
+
+  .callout{
+    background:color-mix(in srgb, var(--accent) 7%, white);
+    border:1px solid color-mix(in srgb, var(--accent) 18%, white);
+    border-left:4px solid var(--accent);
+    border-radius:12px;
+    padding:18px 22px;
+    margin:24px 0 30px;
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--ink);
+  }
+
+  .concepts{margin:32px 0;}
+  .concepts h3{
+    font-family:'Sora', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  .concept-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+  }
+  .concept-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    box-shadow:0 1px 2px rgba(31,36,48,.04);
+  }
+  .concept-card .k{
+    font-family:'Sora', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--accent);
+    display:block;
+    margin-bottom:6px;
+  }
+  .concept-card p{
+    font-size:14px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  .example{margin:32px 0;}
+  .example h3{
+    font-family:'Sora', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  .example p{margin-bottom:14px;}
+  pre{
+    background:#20232E;
+    color:#E4E6F1;
+    border-radius:14px;
+    padding:20px 22px;
+    overflow-x:auto;
+    margin:0 0 16px;
+    font-size:13px;
+    line-height:1.65;
+  }
+  pre code{font-family:'IBM Plex Mono', monospace;}
+  .cm{color:#8891A8;}
+  .kw{color:#FFB020;}
+  .cl{color:#6FD6C5;}
+  .st{color:#93E39B;}
+
+  .tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:28px 0 4px;
+  }
+  .tag-pill{
+    font-family:'Sora', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--accent);
+    background:color-mix(in srgb, var(--accent) 10%, white);
+    border:1px solid color-mix(in srgb, var(--accent) 22%, white);
+    border-radius:20px;
+    padding:6px 13px;
+  }
+
+  .topics{margin:32px 0;}
+  .topics h3{
+    font-family:'Sora', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  .topics ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:12px;
+  }
+  .topics li{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    padding:16px 18px 18px 20px;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--accent);
+    border-radius:12px;
+    box-shadow:0 1px 2px rgba(31,36,48,.04);
+  }
+  .topic-title{
+    font-family:'Sora', sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    color:var(--ink);
+  }
+  .topic-note{
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    line-height:1.65;
+    max-width:64ch;
+  }
+
+  .reflect{
+    margin-top:36px;
+    padding-top:24px;
+    border-top:1px dashed var(--line);
+  }
+  .reflect h3{
+    font-family:'Sora', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 12px;
+  }
+
+  .intro-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+    margin-top:30px;
+  }
+  .intro-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-top:4px solid var(--accent);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    box-shadow:0 1px 2px rgba(31,36,48,.04);
+  }
+  .intro-card .unit-num{
+    font-size:12px;
+    color:var(--accent);
+  }
+  .intro-card p{
+    font-size:14px;
+    margin:6px 0 0;
+    color:var(--ink-soft);
+    line-height:1.55;
+  }
+  .intro-card strong{
+    display:block;
+    font-family:'Sora', sans-serif;
+    font-size:15.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-top:2px;
+  }
+
+  /* Mobile */
+  @media (max-width: 880px){
+    body{flex-direction:column;}
+    .sidebar{
+      position:relative;
+      width:100%;
+      height:auto;
+      max-height:none;
+    }
+    main{margin:16px; padding:36px 22px 80px; border-radius:20px;}
+    .intro-grid{grid-template-columns:1fr;}
+    .concept-grid{grid-template-columns:1fr;}
+  }
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  /* ---------- PER-UNIT COLOR IDENTITY ---------- */
+  #page-introduction{ --accent:#4C6FFF; }
+  #page-unit-1{  --accent:#4C6FFF; }
+  #page-unit-2{  --accent:#FF6B6B; }
+  #page-unit-3{  --accent:#F59E0B; }
+  #page-unit-4{  --accent:#22C55E; }
+  #page-unit-5{  --accent:#A855F7; }
+  #page-unit-6{  --accent:#14B8A6; }
+  #page-unit-7{  --accent:#F43F5E; }
+  #page-unit-8{  --accent:#FB923C; }
+  #page-unit-9{  --accent:#6366F1; }
+  #page-unit-10{ --accent:#10B981; }
+  #page-unit-11{ --accent:#8B5CF6; }
+  #page-unit-12{ --accent:#0EA5E9; }
+
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
+        <circle cx="9" cy="9" r="6.5" fill="#ffffff" opacity="0.92"/>
+        <circle cx="15.5" cy="9.5" r="6.5" fill="#ffffff" opacity="0.5"/>
+        <circle cx="12" cy="15.5" r="6.5" fill="#ffffff" opacity="0.72"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Davidetemesi<br>E-Portfolio</h1>
+      <p>OOP401 · Coursework</p>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav" id="sidebarNav">
+    <button class="nav-link active" data-target="introduction">
+      <span class="swatch"></span> Introduction
+    </button>
+
+    <div class="nav-group open" id="unitsGroup">
+      <button class="nav-group-label" id="unitsToggle">
+        <span>Units</span>
+        <span class="chev">▸</span>
+      </button>
+      <ul class="nav-sublist" id="unitsList"></ul>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">Last updated · 2026</div>
+</aside>
+
+<main id="main">
+
+  <section class="page active" id="page-introduction">
+    <h2>Welcome</h2>
+    <h1 class="title">Introduction</h1>
+    <p>This e-portfolio brings together my work across OOP401, a course tracing the arc of
+    object-oriented programming from its founding principles through to the architectural
+    and process decisions that shape real software systems. Each unit page in the sidebar
+    holds a short reflection on what was covered, why it matters, and how it connects to the
+    units around it.</p>
+    <p>Use the <strong>Units</strong> menu on the left to move between the twelve units, from
+    a recap of OOP fundamentals through to secure coding, architecture, testing discipline,
+    dependency management, and a final look at where the field is heading.</p>
+
+    <div class="intro-grid">
+      <div class="intro-card" style="--accent:#4C6FFF"><span class="unit-num">U01</span><strong>Foundations</strong><p>OOP recap — objects, classes, encapsulation, inheritance, polymorphism.</p></div>
+      <div class="intro-card" style="--accent:#FF6B6B"><span class="unit-num">U02</span><strong>SOLID</strong><p>Five principles for designs that tolerate change.</p></div>
+      <div class="intro-card" style="--accent:#F59E0B"><span class="unit-num">U03</span><strong>Creational Patterns</strong><p>Controlling how and when objects come into being.</p></div>
+      <div class="intro-card" style="--accent:#22C55E"><span class="unit-num">U04</span><strong>Structural Patterns</strong><p>Composing classes and objects into larger structures.</p></div>
+      <div class="intro-card" style="--accent:#A855F7"><span class="unit-num">U05</span><strong>Behavioural Patterns</strong><p>Managing communication and responsibility between objects.</p></div>
+      <div class="intro-card" style="--accent:#14B8A6"><span class="unit-num">U06</span><strong>Concurrency</strong><p>Threading, parallelism, and object design under contention.</p></div>
+      <div class="intro-card" style="--accent:#F43F5E"><span class="unit-num">U07</span><strong>Secure Coding</strong><p>Defensive design and common vulnerability classes.</p></div>
+      <div class="intro-card" style="--accent:#FB923C"><span class="unit-num">U08</span><strong>Refactoring</strong><p>Recognising code smells and improving structure safely.</p></div>
+      <div class="intro-card" style="--accent:#6366F1"><span class="unit-num">U09</span><strong>Architecture</strong><p>Layering, boundaries, and system-level OO design.</p></div>
+      <div class="intro-card" style="--accent:#10B981"><span class="unit-num">U10</span><strong>TDD &amp; BDD</strong><p>Writing the test first, and specifying behaviour in plain language.</p></div>
+      <div class="intro-card" style="--accent:#8B5CF6"><span class="unit-num">U11</span><strong>DI &amp; IoC</strong><p>Decoupling construction from use.</p></div>
+      <div class="intro-card" style="--accent:#0EA5E9"><span class="unit-num">U12</span><strong>Review</strong><p>Recent developments and a look back across the course.</p></div>
+    </div>
+  </section>
+
+  <!-- UNIT 1 -->
+  <section class="page" id="page-unit-1">
+    <h2>Unit 01</h2>
+    <h1 class="title">Introduction and Recap of Object-Oriented Programming (OOP)</h1>
+    <p>Unit 1 re-establishes the core vocabulary of object-oriented programming before the
+    course builds on top of it. It revisits classes and objects as the basic unit of design,
+    and walks back through the four pillars: encapsulation, abstraction, inheritance, and
+    polymorphism — this time with an eye on <em>why</em> each one exists, not just how to
+    write the syntax.</p>
+    <p>A class is treated less as "a template for objects" and more as a promise: a bundle of
+    state and behaviour that guarantees certain things stay true no matter who is using it.
+    Objects are the runtime instances of that promise, each with its own state but sharing
+    the same contract. The unit uses this framing to explain why encapsulation isn't about
+    hiding data for its own sake, but about protecting the invariants a class depends on to
+    behave correctly.</p>
+    <div class="callout">The recap matters because every later unit — SOLID, patterns,
+    architecture — is really a more disciplined way of applying these same four ideas at a
+    larger scale.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Encapsulation</span><p>Bundling state and behaviour together, and restricting direct access to internal state through a controlled interface.</p></div>
+        <div class="concept-card"><span class="k">Abstraction</span><p>Exposing only what a consumer needs to know, and hiding the implementation details behind it.</p></div>
+        <div class="concept-card"><span class="k">Inheritance</span><p>Sharing structure and behaviour through an "is-a" relationship — powerful, but easy to overextend.</p></div>
+        <div class="concept-card"><span class="k">Polymorphism</span><p>Letting different classes respond to the same message in ways appropriate to each, resolved at runtime.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>A small illustration used in the unit: a <code>Shape</code> base type with
+      <code>Circle</code> and <code>Rectangle</code> subtypes, each implementing its own
+      <code>area()</code> method. Calling code never checks "what kind of shape is this" — it
+      simply calls <code>area()</code> and lets polymorphism route the call correctly.</p>
+      <pre><code><span class="kw">abstract class</span> <span class="cl">Shape</span> {
+  <span class="kw">abstract</span> area(): <span class="cl">number</span>;
+}
+
+<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+  <span class="kw">constructor</span>(<span class="kw">private</span> radius: <span class="cl">number</span>) { <span class="kw">super</span>(); }
+  area() { <span class="kw">return</span> <span class="cm">Math</span>.PI * <span class="kw">this</span>.radius ** 2; }
+}
+
+<span class="kw">class</span> <span class="cl">Rectangle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
+  <span class="kw">constructor</span>(<span class="kw">private</span> w: <span class="cl">number</span>, <span class="kw">private</span> h: <span class="cl">number</span>) { <span class="kw">super</span>(); }
+  area() { <span class="kw">return</span> <span class="kw">this</span>.w * <span class="kw">this</span>.h; }
+}
+
+<span class="cm">// calling code doesn't need to know which subtype it has</span>
+shapes.forEach(s <span class="kw">=></span> total += s.area());</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Classes, objects, and the object-oriented mental model</span></span><span class="topic-note">A class defines the blueprint — the fields and methods any instance will have — while an object is a concrete instance built from that blueprint at runtime. Thinking in objects means modelling a problem as a set of collaborating things, each responsible for its own state and behaviour, rather than as a single script that pushes data through a sequence of functions. That shift in mental model, more than any particular syntax, is what the rest of the course builds on.</span></li>
+        <li><span class="row"><span class="topic-title">Encapsulation and access control</span></span><span class="topic-note">Encapsulation means keeping an object's internal state private and only exposing a deliberate, controlled interface for interacting with it. Access modifiers like private and protected aren't there to be bureaucratic — they draw a line between the parts of a class other code is allowed to depend on and the parts that are free to change without breaking anything. A well-encapsulated class can have its internals rewritten completely as long as its public contract stays the same.</span></li>
+        <li><span class="row"><span class="topic-title">Abstraction and designing minimal public interfaces</span></span><span class="topic-note">Abstraction is about deciding what a caller actually needs to know to use a class, and hiding everything else behind that. A well-designed public interface reads like a short, honest description of what an object can do, without leaking details about how it does it. Keeping that surface small also keeps the class easier to change later, since fewer external callers are coupled to its internals.</span></li>
+        <li><span class="row"><span class="topic-title">Inheritance vs. composition, and when each is appropriate</span></span><span class="topic-note">Inheritance models a strict "is-a" relationship and shares both structure and behaviour down a class hierarchy, which is powerful but can become rigid once a hierarchy grows past two or three levels. Composition instead builds an object out of smaller collaborating parts, favouring "has-a" relationships that can be swapped or recombined more freely. The unit's guidance is to reach for composition first, and treat inheritance as a deliberate choice rather than a default.</span></li>
+        <li><span class="row"><span class="topic-title">Polymorphism and dynamic dispatch</span></span><span class="topic-note">Polymorphism lets different classes respond to the same method call in ways appropriate to each of them, with the correct implementation resolved at runtime based on the object's actual type. This is what lets calling code stay simple — it can call one method name across many different subtypes without ever needing to check which one it's talking to. Dynamic dispatch is the underlying mechanism that makes that resolution happen automatically.</span></li>
+        <li><span class="row"><span class="topic-title">Constructors, invariants, and valid object state</span></span><span class="topic-note">An invariant is a condition that should always hold true for an object — for example, a bank account balance never going negative — and a constructor's core job is to make sure an object can never be created in a state that breaks one. Once that guarantee is in place at construction time, every method on the class can assume it's working with valid data, which simplifies the rest of the class considerably.</span></li>
+        <li><span class="row"><span class="topic-title">Where procedural habits leak into OO code</span></span><span class="topic-note">Even in an object-oriented language, it's easy to write code that's procedural in spirit — static utility classes that hold no state, "anemic" data classes with no real behaviour, or long methods that push data through a sequence of steps rather than letting objects act on their own behalf. Spotting these habits early is the first step toward a design that actually uses what OOP offers.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">encapsulation</span>
+      <span class="tag-pill">inheritance</span>
+      <span class="tag-pill">polymorphism</span>
+      <span class="tag-pill">abstraction</span>
+      <span class="tag-pill">class design</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Coming back to these fundamentals with a few more years of practice made the
+      trade-offs clearer — inheritance in particular reads differently once you've felt the
+      cost of a rigid class hierarchy. The unit's framing of encapsulation as "protecting
+      invariants" rather than "hiding fields" was a small shift in language that changed how
+      I read my own older code — a lot of bugs I've hit before were really invariants that
+      were never enforced in the first place.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 2 -->
+  <section class="page" id="page-unit-2">
+    <h2>Unit 02</h2>
+    <h1 class="title">SOLID Principles of Object-Oriented Design</h1>
+    <p>Unit 2 introduces the five SOLID principles as a shared vocabulary for talking about
+    design quality: Single Responsibility, Open/Closed, Liskov Substitution, Interface
+    Segregation, and Dependency Inversion. Each principle is examined through small
+    before-and-after refactors that show a design violating it, and then correcting it.</p>
+    <p>The unit is careful to frame SOLID as a diagnostic tool rather than a checklist to
+    apply blindly. Each principle is paired with a "smell" that signals its violation — a
+    class with an unrelated second job, a subclass that throws on a method its parent
+    supports, an interface that forces implementers to stub out methods they don't need.
+    Learning to recognise the smell turns out to matter more than memorising the
+    definition.</p>
+    <div class="callout">SOLID is less a set of rules than a set of smells to watch for —
+    each principle names a specific way a class can become hard to change.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">SRP</span><p>A class should have one reason to change — one axis of responsibility, not several bundled together.</p></div>
+        <div class="concept-card"><span class="k">OCP</span><p>New behaviour should be added by extending a design, not by editing code that already works.</p></div>
+        <div class="concept-card"><span class="k">LSP</span><p>A subtype must be usable anywhere its base type is expected, without surprising callers.</p></div>
+        <div class="concept-card"><span class="k">ISP &amp; DIP</span><p>Prefer small, focused interfaces, and depend on abstractions rather than concrete classes.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>An early exercise takes an <code>InvoicePrinter</code> class that formats an
+      invoice, saves it to disk, <em>and</em> emails it — three responsibilities in one
+      class. Splitting it into <code>InvoiceFormatter</code>, <code>InvoiceStorage</code>,
+      and <code>InvoiceMailer</code> makes each piece independently testable and
+      replaceable.</p>
+      <pre><code><span class="cm">// before — one class, three reasons to change</span>
+<span class="kw">class</span> <span class="cl">InvoicePrinter</span> {
+  format(invoice) { <span class="cm">/* ... */</span> }
+  saveToDisk(invoice) { <span class="cm">/* ... */</span> }
+  emailTo(invoice, address) { <span class="cm">/* ... */</span> }
+}
+
+<span class="cm">// after — one responsibility per class</span>
+<span class="kw">class</span> <span class="cl">InvoiceFormatter</span> { format(invoice) { <span class="cm">/* ... */</span> } }
+<span class="kw">class</span> <span class="cl">InvoiceStorage</span>   { save(invoice)   { <span class="cm">/* ... */</span> } }
+<span class="kw">class</span> <span class="cl">InvoiceMailer</span>    { send(invoice, to) { <span class="cm">/* ... */</span> } }</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Single Responsibility Principle — one reason to change</span></span><span class="topic-note">A class should have exactly one reason to change, meaning it should own exactly one axis of responsibility rather than several unrelated ones bundled together. When a class mixes concerns — say, business logic and file I/O — a change to one concern risks breaking the other, and the class becomes harder to test in isolation. Splitting responsibilities apart, even when it means more classes, tends to make each piece both simpler and more stable.</span></li>
+        <li><span class="row"><span class="topic-title">Open/Closed Principle — open for extension, closed for modification</span></span><span class="topic-note">A well-designed module should be open to having new behaviour added, but closed to having its existing, working code edited to do it. In practice this usually means designing around interfaces or abstract base classes, so that a new case can be handled by adding a new implementation rather than reopening and risking code that already passes its tests.</span></li>
+        <li><span class="row"><span class="topic-title">Liskov Substitution Principle — subtypes must honour base-type contracts</span></span><span class="topic-note">Any subtype should be usable wherever its base type is expected, without the caller noticing a difference in behaviour it wasn't told to expect. Violations often look reasonable in isolation — a subclass that throws where the parent wouldn't, or ignores an argument the parent respects — but they break the assumption that lets polymorphism be trusted in the first place.</span></li>
+        <li><span class="row"><span class="topic-title">Interface Segregation — many small interfaces over one large one</span></span><span class="topic-note">No class should be forced to depend on methods it doesn't actually use. A single bloated interface tends to accumulate unrelated methods over time, forcing every implementer to stub out things that don't apply to it. Splitting it into several smaller, more focused interfaces lets each implementer depend only on what it genuinely needs.</span></li>
+        <li><span class="row"><span class="topic-title">Dependency Inversion — depending on abstractions, not concretions</span></span><span class="topic-note">High-level modules that contain business logic shouldn't depend directly on low-level modules like a specific database driver or file system; both should depend on a shared abstraction instead. This inversion is what allows the low-level details to be swapped out — for testing, or for a future migration — without having to touch the business logic that sits above them.</span></li>
+        <li><span class="row"><span class="topic-title">Recognising SOLID violations as code smells</span></span><span class="topic-note">Each SOLID principle pairs with a concrete, recognisable smell: an unrelated second responsibility, a subclass that throws where its parent wouldn't, an interface implementers only partially support, a class that constructs its own dependencies directly. Learning to spot the smell in the wild turns out to matter more day-to-day than being able to recite the principle's definition from memory.</span></li>
+        <li><span class="row"><span class="topic-title">Trade-offs — SOLID applied too early can over-engineer a simple design</span></span><span class="topic-note">SOLID is a diagnostic tool for managing change, not a checklist to apply uniformly to every class. Introducing interfaces, abstraction layers, and injected dependencies for a piece of code that's genuinely simple and unlikely to change adds indirection without buying anything back — the unit is explicit that judgement about where change is actually likely matters more than mechanically applying every principle everywhere.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">SOLID</span>
+      <span class="tag-pill">design principles</span>
+      <span class="tag-pill">Liskov substitution</span>
+      <span class="tag-pill">dependency inversion</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Liskov Substitution was the principle I understood least well going in, and the
+      classic rectangle/square example finally made the contract-based framing click:
+      violating LSP isn't about broken syntax, it's about a subtype quietly breaking a
+      promise its base type made to callers. It also reframed a few "clever" subclasses from
+      past projects as, in hindsight, LSP violations waiting to surface.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 3 -->
+  <section class="page" id="page-unit-3">
+    <h2>Unit 03</h2>
+    <h1 class="title">Design Patterns I — Creational Patterns</h1>
+    <p>Unit 3 opens the Gang of Four catalogue with the creational patterns, which govern how
+    objects are instantiated. The unit covers Singleton, Factory Method, Abstract Factory,
+    Builder, and Prototype, comparing them against plain constructors to show what each one
+    buys you.</p>
+    <p>A recurring theme is that constructors are a poor place to put decision logic. The
+    moment "which class do I instantiate" or "how many steps does this object need to be
+    built correctly" becomes non-trivial, a plain <code>new</code> call starts to leak that
+    complexity into every call site. Each creational pattern is a different way of moving
+    that decision somewhere more controllable.</p>
+    <div class="callout">Creational patterns exist to separate "what gets built" from "how it
+    gets built" — a distinction that pays off the moment construction logic gets complicated.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Singleton</span><p>Guarantees a single instance and a global access point — useful sparingly, risky as a default habit.</p></div>
+        <div class="concept-card"><span class="k">Factory Method</span><p>Lets subclasses decide which concrete class to instantiate, behind a common creation method.</p></div>
+        <div class="concept-card"><span class="k">Abstract Factory</span><p>Produces families of related objects that are guaranteed to work together.</p></div>
+        <div class="concept-card"><span class="k">Builder &amp; Prototype</span><p>Builder assembles complex objects step by step; Prototype creates new objects by cloning existing ones.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>The Builder exercise constructs an <code>HttpRequest</code> object that has several
+      optional parts — headers, query params, a body — without a constructor that takes six
+      optional arguments in a fixed order.</p>
+      <pre><code><span class="kw">const</span> request = <span class="kw">new</span> <span class="cl">RequestBuilder</span>()
+  .setUrl(<span class="st">"/api/orders"</span>)
+  .setMethod(<span class="st">"POST"</span>)
+  .addHeader(<span class="st">"Content-Type"</span>, <span class="st">"application/json"</span>)
+  .setBody({ item: <span class="st">"widget"</span>, qty: 3 })
+  .build();</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Singleton — and why it's often overused</span></span><span class="topic-note">Singleton guarantees exactly one instance of a class exists and gives the whole program a single, global point of access to it. That global access is exactly what makes it risky to overuse: it introduces hidden global state that's easy to reach for but hard to isolate in tests, since any test touching that class is implicitly sharing state with every other test that touches it too.</span></li>
+        <li><span class="row"><span class="topic-title">Factory Method — deferring instantiation to subclasses</span></span><span class="topic-note">Factory Method defines a method for creating an object but lets subclasses decide which concrete class actually gets instantiated. This keeps the calling code decoupled from specific concrete classes — it only ever talks to the abstract factory method, while the decision about exactly which subtype to build is delegated further down the hierarchy.</span></li>
+        <li><span class="row"><span class="topic-title">Abstract Factory — families of related objects</span></span><span class="topic-note">Abstract Factory produces whole families of related objects that are guaranteed to work together, without the calling code needing to know which concrete family it's using. A classic example is a UI toolkit that can produce a matching set of buttons, checkboxes, and menus for either a light or dark theme, chosen once and applied consistently everywhere.</span></li>
+        <li><span class="row"><span class="topic-title">Builder — assembling complex objects step by step</span></span><span class="topic-note">Builder replaces a constructor with a long, error-prone list of optional arguments with a readable, chainable sequence of steps that assembles a complex object piece by piece. It's particularly useful when an object has many optional parts, since each call to the builder names exactly what it's setting instead of relying on argument position.</span></li>
+        <li><span class="row"><span class="topic-title">Prototype — cloning existing instances</span></span><span class="topic-note">Prototype creates new objects by cloning an existing, already-configured instance rather than building one from scratch. This is useful when constructing an object from raw inputs is expensive or complicated, but a similar object already exists that can simply be copied and then lightly adjusted.</span></li>
+        <li><span class="row"><span class="topic-title">Constructors as a design smell when logic accumulates</span></span><span class="topic-note">When a constructor starts accumulating conditional logic, optional parameters, or multi-step setup, that complexity is a sign that instantiation itself deserves its own dedicated pattern rather than being crammed into the class's constructor. Recognising this early keeps the class's core responsibilities separate from the increasingly complicated question of how to build one correctly.</span></li>
+        <li><span class="row"><span class="topic-title">Choosing between patterns based on how instantiation actually varies</span></span><span class="topic-note">The right creational pattern depends on exactly what varies at construction time: if it's which concrete class to build, Factory Method or Abstract Factory fit; if it's the number of optional steps, Builder fits; if it's cheaply copying an existing configuration, Prototype fits. The unit's exercises repeatedly come back to matching the pattern to the specific kind of variability at hand.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">creational patterns</span>
+      <span class="tag-pill">singleton</span>
+      <span class="tag-pill">factory method</span>
+      <span class="tag-pill">builder</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>The Builder pattern mapped directly onto a config object I'd been passing around
+      awkwardly in a past project — a good reminder to look for patterns in existing pain
+      points, not just new code. Singleton was also a useful cautionary tale: easy to reach
+      for, but it quietly introduces global state that makes testing harder, which the unit
+      was careful to flag rather than present as a free win.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 4 -->
+  <section class="page" id="page-unit-4">
+    <h2>Unit 04</h2>
+    <h1 class="title">Design Patterns II — Structural Patterns</h1>
+    <p>Unit 4 moves to structural patterns, which describe how classes and objects are
+    composed into larger structures while keeping those structures flexible. The unit works
+    through Adapter, Decorator, Facade, Composite, Proxy, and Bridge.</p>
+    <p>A useful distinction drawn early in the unit: some structural patterns change an
+    interface (Adapter), some add behaviour (Decorator), some hide complexity (Facade), and
+    some control access (Proxy). They can look alike in a class diagram — often just an
+    object wrapping another object of the same interface — so the unit pushes on <em>intent</em>
+    as the real differentiator, not shape.</p>
+    <div class="callout">Where creational patterns focus on birth, structural patterns focus
+    on shape — how independently designed pieces can still fit together cleanly.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Adapter</span><p>Wraps an incompatible interface so it can be used where a different one is expected.</p></div>
+        <div class="concept-card"><span class="k">Decorator</span><p>Wraps an object to layer on extra behaviour, transparently, without touching its class.</p></div>
+        <div class="concept-card"><span class="k">Facade</span><p>Offers one simple entry point in front of a complex subsystem with many moving parts.</p></div>
+        <div class="concept-card"><span class="k">Composite, Proxy, Bridge</span><p>Composite unifies trees of objects; Proxy controls access; Bridge separates abstraction from implementation.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>The Decorator exercise wraps a plain <code>Coffee</code> object with
+      <code>MilkDecorator</code> and <code>SugarDecorator</code>, each adding cost and
+      description without subclassing <code>Coffee</code> for every combination.</p>
+      <pre><code><span class="kw">let</span> order = <span class="kw">new</span> <span class="cl">Coffee</span>();
+order = <span class="kw">new</span> <span class="cl">MilkDecorator</span>(order);
+order = <span class="kw">new</span> <span class="cl">SugarDecorator</span>(order);
+
+order.cost();        <span class="cm">// base + milk + sugar</span>
+order.describe();    <span class="cm">// "Coffee, milk, sugar"</span></code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Adapter — reconciling incompatible interfaces</span></span><span class="topic-note">Adapter wraps an existing class so that its interface matches whatever a caller is expecting, without modifying the original class at all. It's especially useful when integrating a third-party library whose interface doesn't line up with the rest of a codebase — the adapter absorbs that mismatch in one place instead of scattering workarounds everywhere the library is used.</span></li>
+        <li><span class="row"><span class="topic-title">Decorator — adding behaviour without subclassing</span></span><span class="topic-note">Decorator wraps an object to layer additional behaviour on top of it at runtime, transparently, without needing a new subclass for every possible combination of extra behaviour. Multiple decorators can be stacked on the same base object, each adding its own small piece of functionality independently of the others.</span></li>
+        <li><span class="row"><span class="topic-title">Facade — a simple front for a complex subsystem</span></span><span class="topic-note">Facade provides one clean, simple entry point in front of a subsystem that internally has many moving, interdependent parts. Callers interact only with the facade's simplified methods, while the facade itself handles the coordination of whatever complexity sits behind it, keeping that complexity from leaking out to every caller.</span></li>
+        <li><span class="row"><span class="topic-title">Composite — treating individual objects and groups uniformly</span></span><span class="topic-note">Composite lets a caller treat a single object and a whole tree of objects through exactly the same interface — calling one method on a composite node applies it recursively to every child underneath. This is the pattern behind file-system-like structures, where a single file and an entire folder of files can both respond to the same operation.</span></li>
+        <li><span class="row"><span class="topic-title">Proxy — controlling access to another object</span></span><span class="topic-note">Proxy stands in for a real object and controls access to it, which might mean delaying expensive creation until it's actually needed, checking permissions before forwarding a call, or adding logging around every access. From the caller's point of view, a proxy looks identical to the real object, so the extra control layer is entirely invisible.</span></li>
+        <li><span class="row"><span class="topic-title">Bridge — decoupling abstraction from implementation</span></span><span class="topic-note">Bridge separates an abstraction from its implementation so that the two can vary independently, rather than being locked together in a single inheritance hierarchy. A shape abstraction, for instance, can be paired with different rendering implementations, and either side can change without forcing a change on the other.</span></li>
+        <li><span class="row"><span class="topic-title">Telling structurally similar patterns apart by intent, not shape</span></span><span class="topic-note">Several structural patterns look almost identical on a class diagram — often just one object wrapping another that shares its interface — so the real way to tell them apart is by asking what problem they're solving: reconciling an interface, adding behaviour, simplifying access, or controlling it. The unit's side-by-side comparisons made that distinction concrete rather than theoretical.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">structural patterns</span>
+      <span class="tag-pill">decorator</span>
+      <span class="tag-pill">adapter</span>
+      <span class="tag-pill">facade</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Decorator and Proxy look similar on a class diagram but solve very different
+      problems — the unit's side-by-side comparison was the clearest way I've seen that
+      distinction taught. It also made me more careful about naming: a class called
+      "Wrapper" tells a reader nothing about which of these six patterns is actually in
+      play.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 5 -->
+  <section class="page" id="page-unit-5">
+    <h2>Unit 05</h2>
+    <h1 class="title">Design Patterns III — Behavioural Patterns</h1>
+    <p>Unit 5 completes the pattern catalogue with the behavioural patterns, which manage
+    algorithms and the assignment of responsibility between objects. Strategy, Observer,
+    Command, State, Template Method, and Iterator are each worked through with a small
+    scenario.</p>
+    <p>Where structural patterns are about shape, behavioural patterns are about
+    responsibility — which object decides what happens next, and how that decision can
+    change without every collaborator needing to know about it. The unit repeatedly returns
+    to one question: if this behaviour needs to change tomorrow, does that require editing
+    one small object, or hunting through several classes for scattered conditionals?</p>
+    <div class="callout">Behavioural patterns are about conversation — how objects talk to
+    each other without becoming tightly coupled to the way that conversation happens.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Strategy</span><p>Swaps interchangeable algorithms behind one interface, chosen at runtime rather than hard-coded.</p></div>
+        <div class="concept-card"><span class="k">Observer</span><p>Lets one-to-many notification happen without the subject knowing concrete details about its listeners.</p></div>
+        <div class="concept-card"><span class="k">Command</span><p>Turns a request into an object, enabling queuing, logging, and undo.</p></div>
+        <div class="concept-card"><span class="k">State, Template Method, Iterator</span><p>State changes behaviour with internal state; Template Method fixes a skeleton with pluggable steps; Iterator gives uniform traversal.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>The Strategy exercise swaps pricing algorithms for an order total — regular,
+      seasonal-discount, and loyalty-member — without a chain of <code>if/else</code> checks
+      inside the order class itself.</p>
+      <pre><code><span class="kw">class</span> <span class="cl">Order</span> {
+  <span class="kw">constructor</span>(<span class="kw">private</span> pricing: <span class="cl">PricingStrategy</span>) {}
+  total(items) { <span class="kw">return</span> <span class="kw">this</span>.pricing.calculate(items); }
+}
+
+order.pricing = <span class="kw">new</span> <span class="cl">LoyaltyDiscountStrategy</span>();
+order.total(cart);  <span class="cm">// swapped without touching Order</span></code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Strategy — interchangeable algorithms behind a common interface</span></span><span class="topic-note">Strategy defines a family of interchangeable algorithms behind one shared interface, letting the algorithm in use be swapped at runtime instead of selected through a branching conditional buried inside a class. Each concrete strategy is independently testable, and adding a new one doesn't require touching the code that already exists.</span></li>
+        <li><span class="row"><span class="topic-title">Observer — one-to-many notification without tight coupling</span></span><span class="topic-note">Observer lets one subject notify many interested listeners when something changes, without the subject needing to know anything concrete about who those listeners are. This is the pattern underneath most event-driven UI code, and the unit pairs it with a caution about memory leaks when listeners are registered but never properly cleaned up.</span></li>
+        <li><span class="row"><span class="topic-title">Command — encapsulating a request as an object</span></span><span class="topic-note">Command turns a request or action into a first-class object with its own data and an execute method, rather than a plain method call. Once a request is an object, it can be queued, logged, passed around, or reversed — capabilities that are difficult to add on top of an ordinary direct method call after the fact.</span></li>
+        <li><span class="row"><span class="topic-title">State — behaviour that changes with internal state</span></span><span class="topic-note">State delegates an object's behaviour to a separate state object that's swapped out as the object's internal status changes, replacing a large conditional that checks the current state everywhere behaviour needs to differ. Each state object only needs to know how to behave in its own specific state, keeping the logic for each state cleanly separated.</span></li>
+        <li><span class="row"><span class="topic-title">Template Method — fixed skeleton, customisable steps</span></span><span class="topic-note">Template Method fixes the overall shape of an algorithm in a base class, while leaving specific steps open for subclasses to fill in. This keeps the overall sequence consistent and enforced in one place, while still allowing meaningful variation at exactly the points where it's needed.</span></li>
+        <li><span class="row"><span class="topic-title">Iterator — uniform traversal over different collections</span></span><span class="topic-note">Iterator gives consistent, step-by-step access to elements in a collection without exposing how that collection is actually structured underneath. Calling code can traverse an array, a tree, or a linked list through the exact same interface, without needing to know or care which one it's actually working with.</span></li>
+        <li><span class="row"><span class="topic-title">Replacing conditional logic with polymorphic dispatch</span></span><span class="topic-note">A long chain of if/else or switch statements checking an object's type or state is often a sign that the responsibility belongs inside the objects themselves rather than in a caller reasoning about them from outside. Behavioural patterns like Strategy and State are, in large part, structured ways of making that replacement.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">behavioural patterns</span>
+      <span class="tag-pill">strategy</span>
+      <span class="tag-pill">observer</span>
+      <span class="tag-pill">command</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Observer felt the most familiar coming in — most event-driven UI code I've written
+      is really an informal version of it — but naming it properly made the trade-offs
+      around memory leaks and listener cleanup much more explicit. Command was the bigger
+      surprise: turning a request into an object feels unnecessary until you need undo,
+      logging, or queuing, at which point it's almost the only clean option.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 6 -->
+  <section class="page" id="page-unit-6">
+    <h2>Unit 06</h2>
+    <h1 class="title">Concurrency and Parallelism in Object-Oriented Design</h1>
+    <p>Unit 6 shifts from static structure to runtime behaviour under concurrency. It
+    distinguishes concurrency from parallelism, then looks at how shared mutable state inside
+    objects becomes a liability once multiple threads are involved, and what design responses
+    are available.</p>
+    <p>Concurrency is framed as "dealing with more than one thing at once," while parallelism
+    is "doing more than one thing at the exact same instant" — a distinction that matters
+    because a program can be concurrent on a single core, but only parallel with multiple
+    ones. The unit then walks through what happens when two threads read-modify-write the
+    same object field without coordination, and the several ways an object's design can
+    prevent that from being possible in the first place.</p>
+    <div class="callout">Thread safety is a design property, not an afterthought — the unit's
+    central argument is that it has to be designed in at the class level, not patched on
+    later with locks.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Race condition</span><p>Two threads read-modify-write shared state without coordination, producing a result that depends on timing.</p></div>
+        <div class="concept-card"><span class="k">Locks &amp; monitors</span><p>Mechanisms that serialise access to a critical section so only one thread modifies shared state at a time.</p></div>
+        <div class="concept-card"><span class="k">Immutability</span><p>An object that can't change after construction has no race conditions to worry about — it's inherently safe to share.</p></div>
+        <div class="concept-card"><span class="k">Thread pools</span><p>Reusing a fixed set of worker threads for many short tasks instead of creating a thread per task.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>A simple <code>Counter</code> class shows the problem directly: without
+      synchronisation, two threads calling <code>increment()</code> concurrently can both
+      read the same value before either writes it back, silently losing an update.</p>
+      <pre><code><span class="cm">// unsafe — read-modify-write is not atomic</span>
+<span class="kw">class</span> <span class="cl">Counter</span> {
+  <span class="kw">private</span> count = 0;
+  increment() { <span class="kw">this</span>.count = <span class="kw">this</span>.count + 1; }
+}
+
+<span class="cm">// safer — synchronised access to the critical section</span>
+<span class="kw">class</span> <span class="cl">SafeCounter</span> {
+  <span class="kw">private</span> count = 0;
+  <span class="kw">private</span> lock = <span class="kw">new</span> <span class="cl">Mutex</span>();
+  increment() { lock.runExclusive(() <span class="kw">=></span> <span class="kw">this</span>.count++); }
+}</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Concurrency vs. parallelism, and where each applies</span></span><span class="topic-note">Concurrency is about structuring a program to deal with more than one task making progress at once, while parallelism is specifically about tasks running at the exact same instant on different cores. A program can be concurrent on a single core through interleaving, but it can only be truly parallel with multiple cores actually available to it — a distinction that shapes which tools and guarantees are relevant.</span></li>
+        <li><span class="row"><span class="topic-title">Shared mutable state and race conditions</span></span><span class="topic-note">A race condition happens when two threads read, modify, and write the same piece of shared state without any coordination, so the final result ends up depending on the unpredictable timing of which thread ran first. These bugs are notoriously hard to reproduce, since they may only show up under specific timing conditions that don't always occur.</span></li>
+        <li><span class="row"><span class="topic-title">Locks, monitors, and synchronised methods</span></span><span class="topic-note">Locks and monitors are mechanisms for making sure only one thread can execute a critical section of code — the part that touches shared state — at any given time. Synchronised methods apply this automatically at the method level, though the unit stresses that locking has to be scoped carefully to avoid serialising more of the program than necessary.</span></li>
+        <li><span class="row"><span class="topic-title">Immutable objects as a concurrency strategy</span></span><span class="topic-note">An object that can never change after it's constructed has no state for two threads to race over, which makes it inherently safe to share across threads without any locking at all. This turns immutability from a stylistic preference into a concrete concurrency strategy — the safest data to share is data that simply can't change.</span></li>
+        <li><span class="row"><span class="topic-title">Thread pools and task-based concurrency</span></span><span class="topic-note">Rather than spawning a brand-new thread for every task, a thread pool reuses a fixed set of worker threads to process a stream of incoming tasks. This avoids the overhead of constantly creating and destroying threads, and gives a program predictable control over how many tasks are actually running at once.</span></li>
+        <li><span class="row"><span class="topic-title">Deadlock, livelock, and how lock ordering prevents them</span></span><span class="topic-note">Deadlock happens when two or more threads each hold a lock the other needs and wait on each other forever; livelock is the related case where threads keep responding to each other without ever making real progress. Consistently acquiring locks in the same fixed order across the whole codebase is the standard way to make deadlock structurally impossible rather than merely unlikely.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">concurrency</span>
+      <span class="tag-pill">race conditions</span>
+      <span class="tag-pill">immutability</span>
+      <span class="tag-pill">thread safety</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>The push toward immutability as a first line of defence reframed a lot of earlier
+      design choices — an immutable object is, among other things, a concurrency
+      simplification. Working through the deadlock scenario by hand, tracing which thread
+      was waiting on which lock, made "always acquire locks in a consistent order" feel like
+      earned advice rather than a rule to memorise.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 7 -->
+  <section class="page" id="page-unit-7">
+    <h2>Unit 07</h2>
+    <h1 class="title">Secure Coding Practices in Object-Oriented Programming</h1>
+    <p>Welcome to Unit 7. This week, we shift our focus to secure coding practices, a
+    critical aspect of professional software development. The unit looks at how the same OO
+    principles used for maintainability — encapsulation, least privilege, clear
+    contracts — double as defensive tools once security is the concern.</p>
+    <p>The unit's starting point is that a class's public interface is also its attack
+    surface: every method that accepts input from outside the object is a place where an
+    attacker gets a say in what happens next. From there it works through the classes of
+    vulnerability that show up most often in object-oriented systems, and the specific
+    design habit that closes each one — validating at the boundary, never trusting a
+    caller's claim about object state, and failing safely rather than failing open.</p>
+    <div class="callout">Most vulnerabilities in object-oriented systems trace back to an
+    object trusting input, state, or a collaborator that it shouldn't have — encapsulation is
+    as much a security boundary as a design one.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Trust boundary</span><p>Any point where data crosses from an untrusted source into your object graph — the place validation has to happen.</p></div>
+        <div class="concept-card"><span class="k">Least privilege</span><p>Giving a class, method, or user only the access it strictly needs, nothing more.</p></div>
+        <div class="concept-card"><span class="k">Fail-safe defaults</span><p>When something goes wrong or is ambiguous, the system should deny by default, not permit.</p></div>
+        <div class="concept-card"><span class="k">Defensive copying</span><p>Returning or storing a copy of a mutable object rather than a live reference, so callers can't silently corrupt internal state.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>A recurring exercise: an <code>Account</code> class that returns its internal
+      <code>transactions</code> array directly lets any caller mutate the account's history
+      from outside. Returning a defensive copy closes that hole without changing the public
+      method signature.</p>
+      <pre><code><span class="cm">// unsafe — exposes a live reference to internal state</span>
+getTransactions() { <span class="kw">return</span> <span class="kw">this</span>.transactions; }
+
+<span class="cm">// safer — caller gets a copy, internal state stays protected</span>
+getTransactions() { <span class="kw">return</span> [...<span class="kw">this</span>.transactions]; }</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Input validation and untrusted data at object boundaries</span></span><span class="topic-note">Any point where data enters an object from outside — a network request, a file, user input — is a trust boundary, and it's the natural place to validate that data before it's allowed to affect an object's internal state. Skipping validation at the boundary means every downstream method has to defensively re-check the same data, or risk acting on something it shouldn't trust.</span></li>
+        <li><span class="row"><span class="topic-title">Least privilege in class and access design</span></span><span class="topic-note">Least privilege means giving a class, a method, or a user only the access it strictly needs to do its job, and nothing more. Applied to class design, this shows up as narrow constructors, minimal public methods, and access modifiers that are actually enforced rather than left permissive out of convenience.</span></li>
+        <li><span class="row"><span class="topic-title">Common vulnerability classes: injection, deserialization, broken access control</span></span><span class="topic-note">Injection attacks exploit code that builds a command or query by concatenating untrusted input directly into it; insecure deserialization exploits code that reconstructs objects from untrusted data without checking what it's building; broken access control happens when a system fails to verify that a caller is actually permitted to do what it's asking. All three trace back to a boundary that trusted something it shouldn't have.</span></li>
+        <li><span class="row"><span class="topic-title">Secure defaults and fail-safe error handling</span></span><span class="topic-note">When a system encounters an error, an ambiguous state, or a missing permission, its default behaviour should be to deny or restrict access rather than quietly falling back to something permissive. Designing for the failure case first, rather than treating it as an afterthought, is what the unit means by failing safe.</span></li>
+        <li><span class="row"><span class="topic-title">Defensive copying and immutability as security tools</span></span><span class="topic-note">Returning a copy of a mutable object, rather than a live reference to it, prevents a caller from silently corrupting an object's internal state from outside its control. Immutability takes this further by making that kind of external mutation structurally impossible, closing off an entire category of accidental or malicious state corruption.</span></li>
+        <li><span class="row"><span class="topic-title">Avoiding sensitive data leakage through logs, exceptions, and error messages</span></span><span class="topic-note">Exception messages, stack traces, and log statements are easy to overlook as an attack surface, but they can leak internal details, credentials, or personal data if they aren't deliberately scrubbed. The unit treats error-handling paths as needing the same security scrutiny as the normal, successful path through the code.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">secure coding</span>
+      <span class="tag-pill">least privilege</span>
+      <span class="tag-pill">input validation</span>
+      <span class="tag-pill">defensive copying</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>What stood out most was how many security issues are really design issues wearing a
+      different label — an object that over-trusts its inputs is a maintainability problem
+      and a security problem at the same time. The defensive-copying exercise was a small,
+      concrete example of that overlap: the fix was one line, but the underlying lesson
+      about not exposing mutable internals applies well beyond security.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 8 -->
+  <section class="page" id="page-unit-8">
+    <h2>Unit 08</h2>
+    <h1 class="title">Refactoring and Code Smells</h1>
+    <p>Unit 8 turns to the maintenance side of the codebase: recognising code smells such as
+    long methods, large classes, feature envy, and shotgun surgery, and applying targeted
+    refactorings to resolve them without changing external behaviour.</p>
+    <p>The unit is explicit that refactoring means something specific: changing the internal
+    structure of code without changing what it does externally, verified by a test suite
+    that stays green throughout. That definition rules out "refactoring" that quietly fixes a
+    bug or adds a feature at the same time — those are separate changes that deserve their
+    own commit, so that if something breaks, it's obvious which kind of change caused it.</p>
+    <div class="callout">A code smell isn't a bug — it's a symptom that points at a deeper
+    design problem, and refactoring is the disciplined, test-covered way of treating it.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Long method / god class</span><p>A unit of code that has grown to do too much, making it hard to read, test, or change safely.</p></div>
+        <div class="concept-card"><span class="k">Feature envy</span><p>A method that spends more time reaching into another class's data than using its own — a sign it belongs elsewhere.</p></div>
+        <div class="concept-card"><span class="k">Extract Method/Class</span><p>Pulling a cohesive chunk of logic or data out into its own named method or class.</p></div>
+        <div class="concept-card"><span class="k">Technical debt</span><p>The accumulated cost of past shortcuts — useful as a metaphor for prioritising cleanup work.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>A long <code>processOrder()</code> method mixing validation, pricing, and
+      persistence is split with Extract Method into three named steps, each independently
+      testable and each readable on its own.</p>
+      <pre><code><span class="cm">// before — one long method doing three jobs</span>
+processOrder(order) {
+  <span class="cm">/* validate ... */</span>
+  <span class="cm">/* calculate totals ... */</span>
+  <span class="cm">/* save to database ... */</span>
+}
+
+<span class="cm">// after — extracted, each step named and testable</span>
+processOrder(order) {
+  <span class="kw">this</span>.validate(order);
+  <span class="kw">const</span> total = <span class="kw">this</span>.calculateTotal(order);
+  <span class="kw">this</span>.persist(order, total);
+}</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Common code smells — long method, god class, feature envy, duplicated code</span></span><span class="topic-note">These are recognisable, recurring warning signs that a class or method has grown to take on more than it should: a method too long to hold in your head at once, a class that's become a dumping ground for unrelated logic, a method that spends more time reaching into another object's data than its own, or the same logic copy-pasted in multiple places.</span></li>
+        <li><span class="row"><span class="topic-title">Extract Method / Extract Class refactorings</span></span><span class="topic-note">Extract Method pulls a cohesive chunk of logic out of a larger method and gives it its own name, making the original method easier to read and the extracted piece independently testable. Extract Class does the same thing at a larger scale, pulling a group of related fields and methods out into a class of their own.</span></li>
+        <li><span class="row"><span class="topic-title">Replacing conditionals with polymorphism</span></span><span class="topic-note">A conditional that repeatedly checks an object's type or category to decide what to do is often better expressed as a small hierarchy of classes, each of which simply knows how to behave for its own case. This mirrors the behavioural-pattern work from Unit 5, applied here specifically as a refactoring technique for cleaning up existing code.</span></li>
+        <li><span class="row"><span class="topic-title">Refactoring safely under test coverage</span></span><span class="topic-note">A solid test suite is what turns refactoring from a risky rewrite into a safe, incremental process — each small change can be checked against the existing tests, and a broken test immediately flags that behaviour has changed when it wasn't supposed to. Without that safety net, refactoring becomes much closer to guessing.</span></li>
+        <li><span class="row"><span class="topic-title">Technical debt as a design and communication concept</span></span><span class="topic-note">Technical debt is a useful metaphor for the accumulated cost of past shortcuts — code that works but wasn't built to last, waiting to be paid down later with interest in the form of slower future changes. As a communication tool, it also gives a team a shared vocabulary for prioritising cleanup work against new feature work.</span></li>
+        <li><span class="row"><span class="topic-title">Separating refactoring commits from behaviour-changing commits</span></span><span class="topic-note">Keeping a refactoring commit strictly separate from one that changes actual behaviour makes each commit easier to review, and makes it far easier to pinpoint the cause if something later breaks. Mixing the two together — cleaning up code while also fixing a bug — makes both changes harder to trust in isolation.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">refactoring</span>
+      <span class="tag-pill">code smells</span>
+      <span class="tag-pill">extract method</span>
+      <span class="tag-pill">technical debt</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Working through a "smelly" class step by step made it clear that refactoring is
+      most effective as a sequence of small, reversible moves rather than one large rewrite.
+      The rule about keeping refactoring commits separate from behaviour changes was simple
+      but something I hadn't been disciplined about before — it makes code review, and any
+      later bisecting for a bug, noticeably easier.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 9 -->
+  <section class="page" id="page-unit-9">
+    <h2>Unit 09</h2>
+    <h1 class="title">Object-Oriented Software Architecture</h1>
+    <p>Unit 9 zooms out from individual classes to the architecture of a whole system,
+    covering layered architecture, package and module boundaries, and architectural styles
+    such as MVC, hexagonal, and service-oriented approaches, all viewed through an
+    object-oriented lens.</p>
+    <p>The unit's working definition of architecture is "the decisions that are expensive to
+    change later" — which database to use, how modules are allowed to depend on each other,
+    where the boundary between business logic and infrastructure sits. It argues that good
+    object-oriented architecture is mostly about controlling the direction dependencies
+    point: business logic should not depend on infrastructure details like a specific
+    database or web framework, even though at runtime it needs them.</p>
+    <div class="callout">Architecture is design decisions that are expensive to reverse —
+    the unit frames every architectural choice as a trade-off between flexibility now and
+    cost later.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Layered architecture</span><p>Organising code into layers — presentation, business logic, data — where each layer only depends on the one below it.</p></div>
+        <div class="concept-card"><span class="k">Coupling &amp; cohesion</span><p>Cohesion measures how related the responsibilities inside a module are; coupling measures how tangled modules are with each other.</p></div>
+        <div class="concept-card"><span class="k">MVC</span><p>Splits an application into Model (data/logic), View (presentation), and Controller (coordination).</p></div>
+        <div class="concept-card"><span class="k">Hexagonal architecture</span><p>Keeps business logic at the centre, reachable only through ports, with adapters plugging in the outside world.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>A hexagonal-architecture exercise defines an <code>OrderRepository</code> interface
+      (a port) that the business logic depends on, with a <code>PostgresOrderRepository</code>
+      adapter implementing it — so the core logic never imports anything database-specific.</p>
+      <pre><code><span class="cm">// port — defined by the business logic, owned by the core</span>
+<span class="kw">interface</span> <span class="cl">OrderRepository</span> {
+  save(order: <span class="cl">Order</span>): <span class="kw">void</span>;
+  findById(id: <span class="cl">string</span>): <span class="cl">Order</span>;
+}
+
+<span class="cm">// adapter — implements the port, lives on the outside</span>
+<span class="kw">class</span> <span class="cl">PostgresOrderRepository</span> <span class="kw">implements</span> <span class="cl">OrderRepository</span> {
+  save(order) { <span class="cm">/* SQL details live here, not in core logic */</span> }
+  findById(id) { <span class="cm">/* ... */</span> }
+}</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Layered architecture and separation of concerns</span></span><span class="topic-note">Layered architecture organises a system into distinct layers — presentation, business logic, data access — where each layer is only allowed to depend on the layer directly below it. This keeps concerns cleanly separated: a change to how data is displayed shouldn't require touching the business rules underneath it, and vice versa.</span></li>
+        <li><span class="row"><span class="topic-title">Package and module boundaries</span></span><span class="topic-note">Deciding what belongs inside a given package or module, and what's allowed to depend on what across those boundaries, is one of the most consequential and hardest-to-reverse decisions in a codebase. Poorly drawn boundaries tend to produce modules that are tangled together and can't be changed, tested, or deployed independently.</span></li>
+        <li><span class="row"><span class="topic-title">MVC and its variants</span></span><span class="topic-note">MVC splits an application into a Model that holds data and business logic, a View that handles presentation, and a Controller that coordinates between the two. Its many variants adjust exactly where responsibilities sit, but the underlying goal stays the same: keeping data, display, and coordination logic from bleeding into each other.</span></li>
+        <li><span class="row"><span class="topic-title">Hexagonal / ports-and-adapters architecture</span></span><span class="topic-note">Hexagonal architecture keeps business logic at the centre of a system, reachable only through explicitly defined ports, with adapters plugging in whatever the outside world requires — a specific database, a web framework, a message queue. This means the core logic can be tested, and even reused, entirely independently of any particular infrastructure choice.</span></li>
+        <li><span class="row"><span class="topic-title">Coupling and cohesion at the system level</span></span><span class="topic-note">Cohesion measures how closely related the responsibilities inside a single module are, while coupling measures how entangled separate modules have become with each other. The unit's architectural goal, stated repeatedly, is high cohesion within modules paired with low coupling between them — modules that each do one clear thing and depend on each other as little as possible.</span></li>
+        <li><span class="row"><span class="topic-title">Controlling the direction of dependencies between layers</span></span><span class="topic-note">Business logic should not depend directly on infrastructure details like a specific database or web framework, even though it needs those things to actually run. Controlling the direction dependencies point — infrastructure depending on abstractions defined by the business logic, rather than the other way around — is what makes a system's core logic portable and testable in isolation.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">architecture</span>
+      <span class="tag-pill">layered design</span>
+      <span class="tag-pill">hexagonal architecture</span>
+      <span class="tag-pill">MVC</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Seeing hexagonal architecture as "dependency inversion applied to the whole
+      application" connected this unit back to SOLID in a way that made both easier to
+      remember. It reframed a lot of earlier "just import the database client where you need
+      it" habits as a shortcut that architecture-level thinking specifically warns
+      against.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 10 -->
+  <section class="page" id="page-unit-10">
+    <h2>Unit 10</h2>
+    <h1 class="title">Test-Driven Development (TDD) and Behaviour-Driven Development (BDD)</h1>
+    <p>Unit 10 covers the red-green-refactor cycle of TDD and the specification-by-example
+    style of BDD, treating tests as a design tool rather than only a verification step, and
+    working through the Given/When/Then structure used in BDD scenarios.</p>
+    <p>The unit distinguishes TDD's audience from BDD's: TDD tests are written by and for
+    developers, driving the internal design of a class one small step at a time. BDD
+    scenarios are written to be readable by non-technical stakeholders too, describing
+    behaviour from the outside in plain language — the two are complementary rather than
+    competing techniques, often used together at different levels of a system.</p>
+    <div class="callout">Writing the test first forces an interface decision before an
+    implementation one — the unit's argument is that this ordering, not the tests
+    themselves, is what improves the design.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Red-Green-Refactor</span><p>Write a failing test, write the minimum code to pass it, then improve the structure with tests as a safety net.</p></div>
+        <div class="concept-card"><span class="k">Given/When/Then</span><p>BDD's structure for describing behaviour: starting context, the action taken, and the expected outcome.</p></div>
+        <div class="concept-card"><span class="k">Test doubles</span><p>Mocks, stubs, and fakes stand in for real collaborators so a class can be tested in isolation.</p></div>
+        <div class="concept-card"><span class="k">Testable design</span><p>Classes that depend on injected abstractions are naturally easier to test than ones that construct their own dependencies.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>A TDD exercise builds a <code>ShoppingCart.applyDiscount()</code> method one test at
+      a time, starting from the simplest case (no discount) before handling percentage and
+      fixed-amount discounts.</p>
+      <pre><code><span class="cm">// Given/When/Then, BDD-style</span>
+<span class="kw">describe</span>(<span class="st">"applying a loyalty discount"</span>, () <span class="kw">=></span> {
+  <span class="kw">it</span>(<span class="st">"reduces the total by 10% for members"</span>, () <span class="kw">=></span> {
+    <span class="cm">// Given a cart with $100 of items and a loyalty member</span>
+    <span class="kw">const</span> cart = <span class="kw">new</span> <span class="cl">ShoppingCart</span>(100, { isMember: <span class="kw">true</span> });
+    <span class="cm">// When the discount is applied</span>
+    <span class="kw">const</span> total = cart.applyDiscount();
+    <span class="cm">// Then the total reflects the 10% reduction</span>
+    <span class="kw">expect</span>(total).toBe(90);
+  });
+});</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">The red-green-refactor cycle</span></span><span class="topic-note">The cycle starts with a failing test (red) that describes behaviour that doesn't exist yet, followed by writing just enough code to make it pass (green), and finally improving the internal structure of that code with the test suite acting as a safety net (refactor). Repeating this cycle in small steps is what drives the design forward one decision at a time.</span></li>
+        <li><span class="row"><span class="topic-title">Unit tests as executable design specifications</span></span><span class="topic-note">A well-written unit test does more than verify correctness after the fact — read on its own, it documents exactly what a class is supposed to do in a given situation, in a form that stays accurate because it's checked automatically every time the suite runs. That documentation-by-test tends to age far better than comments or separate written specs.</span></li>
+        <li><span class="row"><span class="topic-title">BDD and the Given/When/Then structure</span></span><span class="topic-note">BDD scenarios describe behaviour in plain, readable language using a Given/When/Then structure: the starting context, the action taken, and the expected outcome. Writing scenarios this way makes them understandable to non-technical stakeholders too, turning a test suite into something closer to a shared, living specification of what the system does.</span></li>
+        <li><span class="row"><span class="topic-title">Test doubles — mocks, stubs, and fakes</span></span><span class="topic-note">Mocks, stubs, and fakes are all stand-ins for a real collaborator that let a class be tested in isolation, without needing to involve a real database, network call, or other slow or unpredictable dependency. Each type of double serves a slightly different purpose — verifying interactions, returning canned data, or providing a lightweight working implementation.</span></li>
+        <li><span class="row"><span class="topic-title">Testable design and dependency isolation</span></span><span class="topic-note">A class that accepts its dependencies from the outside, rather than constructing them internally, is naturally far easier to test, since a test can simply supply a double in place of the real dependency. This connects testing directly back to the dependency injection ideas covered later in Unit 11 — testable design and injectable design turn out to be much the same thing.</span></li>
+        <li><span class="row"><span class="topic-title">Where TDD and BDD fit together in one workflow</span></span><span class="topic-note">TDD and BDD operate at different levels and different audiences: TDD's fine-grained tests drive the internal design of individual classes, while BDD's scenarios describe a system's behaviour from the outside in language a stakeholder can follow. Many teams use both together, with BDD scenarios describing the overall feature and TDD driving the implementation underneath it.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">TDD</span>
+      <span class="tag-pill">BDD</span>
+      <span class="tag-pill">test doubles</span>
+      <span class="tag-pill">testable design</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Writing a failing test before any implementation felt slower at first, but it
+      consistently produced simpler class interfaces than designing the class first and
+      testing it afterward. The Given/When/Then structure also turned out to be a good
+      thinking tool even outside formal BDD — writing a scenario in plain language before
+      touching code surfaces edge cases early.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 11 -->
+  <section class="page" id="page-unit-11">
+    <h2>Unit 11</h2>
+    <h1 class="title">Dependency Injection and Inversion of Control (IoC)</h1>
+    <p>Unit 11 examines how objects should acquire their dependencies. It contrasts objects
+    that construct their own collaborators with objects that receive them from the outside,
+    and introduces IoC containers as a mechanism for wiring large object graphs.</p>
+    <p>Inversion of Control is presented as the broader principle — control over
+    <em>when</em> and <em>how</em> a piece of code runs is handed to a framework or
+    container rather than the code itself — and Dependency Injection as the specific,
+    common case of that principle applied to constructing collaborators. The unit is
+    careful to separate DI, a straightforward technique any class can use, from IoC
+    containers, which are a convenience for wiring large graphs and not a requirement for
+    doing DI at all.</p>
+    <div class="callout">Dependency Injection is Dependency Inversion made concrete — the
+    unit ties this back directly to the "D" in SOLID from Unit 2.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Constructor injection</span><p>Dependencies are passed in when an object is created, making them explicit and required.</p></div>
+        <div class="concept-card"><span class="k">Setter/interface injection</span><p>Dependencies are supplied after construction, useful for optional collaborators.</p></div>
+        <div class="concept-card"><span class="k">IoC container</span><p>A framework component that wires up an object graph automatically based on declared dependencies.</p></div>
+        <div class="concept-card"><span class="k">Service locator (anti-pattern)</span><p>Hides a class's real dependencies behind a global lookup, making them hard to see or test.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>An <code>OrderService</code> that constructs its own <code>EmailSender</code>
+      internally is hard to test without sending a real email. Injecting the dependency
+      through the constructor lets a test supply a fake instead.</p>
+      <pre><code><span class="cm">// before — hidden dependency, hard to test</span>
+<span class="kw">class</span> <span class="cl">OrderService</span> {
+  <span class="kw">private</span> emailSender = <span class="kw">new</span> <span class="cl">SmtpEmailSender</span>();
+}
+
+<span class="cm">// after — injected dependency, easy to substitute in tests</span>
+<span class="kw">class</span> <span class="cl">OrderService</span> {
+  <span class="kw">constructor</span>(<span class="kw">private</span> emailSender: <span class="cl">EmailSender</span>) {}
+}
+
+<span class="cm">// test</span>
+<span class="kw">const</span> service = <span class="kw">new</span> <span class="cl">OrderService</span>(<span class="kw">new</span> <span class="cl">FakeEmailSender</span>());</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Constructor, setter, and interface injection</span></span><span class="topic-note">These are the three common ways a class can receive its dependencies from outside rather than constructing them itself: through the constructor at creation time, through a setter method after construction, or through an interface the class implements. Constructor injection is generally preferred for required dependencies, since it makes them explicit and impossible to forget.</span></li>
+        <li><span class="row"><span class="topic-title">Inversion of Control as a general principle</span></span><span class="topic-note">Inversion of Control is the broader idea of handing control over what code runs, and when, to a framework or container rather than having a piece of code call the shots itself. Dependency injection is simply the most common, concrete application of that broader principle, specifically applied to how objects get their collaborators.</span></li>
+        <li><span class="row"><span class="topic-title">IoC containers and object graph wiring</span></span><span class="topic-note">An IoC container is a piece of framework tooling that automatically assembles a large graph of interdependent objects, wiring each one's dependencies together based on configuration or annotations rather than manual code. It's a convenience for managing complexity at scale, not a requirement for practicing dependency injection at all.</span></li>
+        <li><span class="row"><span class="topic-title">Testability benefits of injected dependencies</span></span><span class="topic-note">Because an injected dependency is supplied from outside rather than built internally, a test can simply pass in a fake or mock implementation in its place, without needing to modify the class under test at all. This is one of the most immediate, practical payoffs of dependency injection, felt the moment you try to write a test for a class that doesn't yet use it.</span></li>
+        <li><span class="row"><span class="topic-title">Common anti-patterns — service locators, hidden dependencies</span></span><span class="topic-note">A service locator hides a class's real dependencies behind a global lookup call, which looks convenient but makes those dependencies invisible from the class's own signature and much harder to test or reason about. Hidden dependencies of any kind undermine the main benefit dependency injection is meant to provide: visibility into what a class actually needs.</span></li>
+        <li><span class="row"><span class="topic-title">Distinguishing DI as a technique from IoC containers as tooling</span></span><span class="topic-note">Dependency injection itself is just a technique — passing collaborators in rather than constructing them internally — and it can be practiced by hand in any codebase with no framework at all. IoC containers are a separate, optional layer of tooling for automating that wiring at scale, and adopting one is not a prerequisite for getting DI's benefits.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">dependency injection</span>
+      <span class="tag-pill">inversion of control</span>
+      <span class="tag-pill">testability</span>
+      <span class="tag-pill">IoC containers</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Constructor injection in particular made a class's dependencies visible just from
+      reading its signature — a small change that had an outsized effect on how easy the
+      code was to reason about. Distinguishing DI from IoC containers was also useful: it
+      clarified that adopting dependency injection doesn't require adopting a heavyweight
+      framework at the same time.</p>
+    </div>
+  </section>
+
+  <!-- UNIT 12 -->
+  <section class="page" id="page-unit-12">
+    <h2>Unit 12</h2>
+    <h1 class="title">Recent Developments and Review</h1>
+    <p>The final unit looks at recent developments touching object-oriented design — the
+    influence of functional programming ideas on OO languages, the growing use of
+    composition over inheritance in modern codebases, and how OO principles interact with
+    microservice and distributed architectures. It closes with a review across all eleven
+    preceding units.</p>
+    <p>Rather than presenting these as a break from what came before, the unit treats them as
+    the same principles under new pressures. Functional-style immutability, for instance,
+    is the same defence against shared mutable state introduced back in Unit 6 on
+    concurrency. Microservices push module boundaries — Unit 9's territory — out to the
+    network, where the cost of a badly drawn boundary is a network call instead of a
+    misplaced import.</p>
+    <div class="callout">The throughline across the course is that every technique studied —
+    SOLID, patterns, testing, architecture — is a different lens on the same underlying goal:
+    software that can change without breaking.</div>
+
+    <div class="concepts">
+      <h3>Key concepts</h3>
+      <div class="concept-grid">
+        <div class="concept-card"><span class="k">Functional influence</span><p>Immutability, pure functions, and first-class functions increasingly show up inside mainstream OO languages.</p></div>
+        <div class="concept-card"><span class="k">Composition over inheritance</span><p>Modern codebases favour assembling behaviour from small collaborators over deep class hierarchies.</p></div>
+        <div class="concept-card"><span class="k">Distributed OO design</span><p>Microservices turn module boundaries into network boundaries, raising the cost of getting them wrong.</p></div>
+        <div class="concept-card"><span class="k">Course throughline</span><p>Every unit, in different language, argues for small, explicit, loosely coupled responsibilities.</p></div>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Example in practice</h3>
+      <p>A closing exercise re-examines a Unit 1 inheritance hierarchy and rewrites it using
+      composition, showing the same behaviour assembled from smaller, independently testable
+      collaborators instead of a rigid class tree.</p>
+      <pre><code><span class="cm">// inheritance — rigid, one hierarchy per axis of variation</span>
+<span class="kw">class</span> <span class="cl">FlyingRobot</span> <span class="kw">extends</span> <span class="cl">Robot</span> { <span class="cm">/* ... */</span> }
+
+<span class="cm">// composition — behaviours assembled, mixed freely</span>
+<span class="kw">class</span> <span class="cl">Robot</span> {
+  <span class="kw">constructor</span>(<span class="kw">private</span> movement: <span class="cl">MovementBehaviour</span>) {}
+  move() { <span class="kw">this</span>.movement.move(); }
+}
+<span class="kw">const</span> robot = <span class="kw">new</span> <span class="cl">Robot</span>(<span class="kw">new</span> <span class="cl">FlyingBehaviour</span>());</code></pre>
+    </div>
+
+    <div class="topics">
+      <h3>Topics covered</h3>
+      <ul>
+        <li><span class="row"><span class="topic-title">Functional influences on modern object-oriented languages</span></span><span class="topic-note">Ideas from functional programming — immutability, pure functions with no side effects, first-class functions passed around as values — increasingly show up inside mainstream object-oriented languages rather than staying confined to purely functional ones. These aren't a rejection of OOP so much as additional tools that address some of the same problems, like shared mutable state, from a different angle.</span></li>
+        <li><span class="row"><span class="topic-title">Composition over inheritance in current practice</span></span><span class="topic-note">Modern codebases increasingly favour assembling an object's behaviour out of several small, focused collaborators rather than building deep, rigid inheritance hierarchies. This isn't a rejection of inheritance so much as a shift in the default — reach for composition first, and treat inheritance as a deliberate exception rather than the starting point.</span></li>
+        <li><span class="row"><span class="topic-title">OO design in distributed and microservice systems</span></span><span class="topic-note">Microservices take the module boundaries discussed back in Unit 9 and push them out across the network, so that a badly drawn boundary now costs a network call and a versioning headache instead of just a misplaced import. The underlying object-oriented design questions stay the same; the stakes of getting them wrong simply get higher.</span></li>
+        <li><span class="row"><span class="topic-title">Course review — connecting Units 1 through 11</span></span><span class="topic-note">Looking back across the course, each unit builds directly on the ones before it: SOLID formalises the encapsulation ideas from Unit 1, patterns are concrete applications of SOLID, architecture applies those same ideas at a system level, and testing and dependency injection make all of it verifiable and swappable in practice.</span></li>
+        <li><span class="row"><span class="topic-title">Where object-oriented design is heading next</span></span><span class="topic-note">Current trends point toward object-oriented design absorbing more functional influence, taking module boundaries more seriously as systems become more distributed, and continuing to lean on composition and explicit dependencies over rigid, implicit structure. The core goal running through all of it stays unchanged: software that can be changed safely.</span></li>
+        <li><span class="row"><span class="topic-title">Revisiting Unit 1's inheritance example through a composition lens</span></span><span class="topic-note">Taking the original inheritance-based example from Unit 1 and rebuilding it with composition instead makes the course's overall argument concrete — the same problem, solved with smaller, independently swappable collaborators instead of a fixed class hierarchy, using everything covered in between.</span></li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag-pill">composition over inheritance</span>
+      <span class="tag-pill">microservices</span>
+      <span class="tag-pill">functional programming</span>
+      <span class="tag-pill">course review</span>
+    </div>
+
+    <div class="reflect">
+      <h3>Reflection</h3>
+      <p>Looking back, the course reads as one continuous argument, starting from
+      encapsulation in Unit 1 and ending with distributed systems in Unit 12, for keeping
+      responsibilities small, explicit, and loosely coupled. Rewriting the Unit 1 inheritance
+      example with composition was a satisfying way to close the loop — the same problem,
+      solved with everything picked up along the way.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const unitTitles = [
+    "Introduction and Recap of OOP",
+    "SOLID Principles of OO Design",
+    "Design Patterns I — Creational",
+    "Design Patterns II — Structural",
+    "Design Patterns III — Behavioural",
+    "Concurrency and Parallelism",
+    "Secure Coding Practices",
+    "Refactoring and Code Smells",
+    "OO Software Architecture",
+    "TDD and BDD",
+    "Dependency Injection and IoC",
+    "Recent Developments and Review"
+  ];
+
+  const unitColors = [
+    "#4C6FFF", "#FF6B6B", "#F59E0B", "#22C55E",
+    "#A855F7", "#14B8A6", "#F43F5E", "#FB923C",
+    "#6366F1", "#10B981", "#8B5CF6", "#0EA5E9"
+  ];
+
+  const unitsList = document.getElementById('unitsList');
+  unitTitles.forEach((title, i) => {
+    const n = i + 1;
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.className = 'nav-link';
+    btn.dataset.target = 'unit-' + n;
+    btn.style.setProperty('--u-accent', unitColors[i]);
+    btn.innerHTML = `<span class="swatch"></span><span class="unit-num">U${String(n).padStart(2,'0')}</span><span>${title}</span>`;
+    li.appendChild(btn);
+    unitsList.appendChild(li);
+  });
+
+  const allNavLinks = () => document.querySelectorAll('.nav-link');
+  const allPages = () => document.querySelectorAll('.page');
+
+  function showPage(target){
+    allPages().forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('page-' + target);
+    if(page){ page.classList.add('active'); page.scrollIntoView({block:'start'}); window.scrollTo(0,0); }
+
+    allNavLinks().forEach(l => l.classList.remove('active'));
+    const link = document.querySelector(`.nav-link[data-target="${target}"]`);
+    if(link) link.classList.add('active');
+  }
+
+  document.getElementById('sidebarNav').addEventListener('click', (e) => {
+    const link = e.target.closest('.nav-link');
+    if(link){
+      showPage(link.dataset.target);
+      return;
+    }
+    const toggle = e.target.closest('#unitsToggle');
+    if(toggle){
+      document.getElementById('unitsGroup').classList.toggle('open');
+    }
+  });
+
+  showPage('introduction');
+</script>
+
+</body>
+</html>
